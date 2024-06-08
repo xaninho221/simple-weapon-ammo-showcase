@@ -15,25 +15,34 @@ void main() {
         if (currentAmmo > 0 && currentAmmo <= 30) {
             if (GetKeyState(VK_LBUTTON) & 0x8000) {
                 currentAmmo -= 1;
-                PlaySound("C:\\xx", NULL, SND_ASYNC); // replace xx with fire sound
-                Sleep(50);
+                PlaySound("C:\\xx", NULL, SND_ASYNC); // replace xx with your weapon firing sound
+                Sleep(50); // this is your "rpm". set it to what you like
                 if (currentAmmo <= 0) 
                     currentAmmo = 0;
             }
         } 
         // reload
-        if (maxAmmo > 0 && maxAmmo <= 90) {
-            if (GetKeyState(0x52) & 0x8000) {
-                PlaySound("C:\\xx", NULL, SND_ASYNC); // replace xx with reload sound
-                Sleep (2000);
-                while (currentAmmo < 30 && maxAmmo > 0) {
-                    currentAmmo += 1;
-                    maxAmmo -= 1;
-                    if (maxAmmo == 0) 
-                        continue;
+        if (currentAmmo >= 0 && currentAmmo < 30) {
+            if (maxAmmo > 0 && maxAmmo <= 90) {
+                if (GetKeyState(0x52) & 0x8000) {
+                    PlaySound("C:\\xx", NULL, SND_ASYNC); // replace xx with your weapon reload sound
+                    Sleep (2000);
+                    while (currentAmmo < 30 && maxAmmo > 0) {
+                        currentAmmo += 1;
+                        maxAmmo -= 1;
+                        if (maxAmmo == 0) 
+                            continue;
+                    }
+                    if (maxAmmo <=0 || maxAmmo >= 90) 
+                        maxAmmo = 0;
                 }
-                if (maxAmmo <=0 || maxAmmo >= 90) 
-                    maxAmmo = 0;
+            }
+        }
+
+        // dry fire sound
+        if (currentAmmo == 0 || maxAmmo == 0) {
+            if (GetKeyState(VK_LBUTTON) & 0x8000) {
+                PlaySound("c:\\xx", NULL, SND_ASYNC); // replace xx with your weapon dry fire sound
             }
         }
 
